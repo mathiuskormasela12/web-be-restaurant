@@ -3,24 +3,31 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { IResponse } from 'src/types';
-import { Table } from './table.model';
+import { TableAvailabilities } from './table.model';
 import { CreateAvailableTableDto } from './dto/createAvailableTable.dto';
 
 @Injectable()
 export class TableAvailabilityService {
-  constructor(@InjectModel(Table) private tableModel: typeof Table) {}
+  constructor(
+    @InjectModel(TableAvailabilities)
+    private tableAvailabilitiesModel: typeof TableAvailabilities,
+  ) {}
 
-  public async getAvailableTables(): Promise<IResponse<Table>> {
+  public async getAvailableTables(): Promise<IResponse<TableAvailabilities>> {
     try {
-      const data = await this.tableModel.findAll();
+      const data = await this.tableAvailabilitiesModel.findAll({
+        attributes: ['id', 'table_code', 'is_available'],
+      });
 
       return {
         statusCode: HttpStatus.OK,
+        message: 'Success',
         data: data,
       };
     } catch (err) {
       return {
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Server Error',
         errors: {
           database: err.message,
         },
@@ -30,14 +37,14 @@ export class TableAvailabilityService {
 
   public async createAvailableTable(
     dto: CreateAvailableTableDto,
-  ): Promise<IResponse<Table>> {
+  ): Promise<IResponse<TableAvailabilities>> {
     try {
-      const data = await this.tableModel.findOne({
+      const data = await this.tableAvailabilitiesModel.findOne({
         where: { table_code: dto.table_code },
       });
 
       if (data === null) {
-        await this.tableModel.create({
+        await this.tableAvailabilitiesModel.create({
           table_code: dto.table_code,
           capacity: dto.capacity,
           location: dto.location,
@@ -46,18 +53,21 @@ export class TableAvailabilityService {
 
         return {
           statusCode: HttpStatus.CREATED,
+          message: 'Success',
         };
       }
 
       return {
         statusCode: HttpStatus.BAD_REQUEST,
+        message: 'Failed',
         errors: {
-          table_code: ['table_code already in used'],
+          table_code: ['table_code is duplicate'],
         },
       };
     } catch (err) {
       return {
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Server Error',
         errors: {
           database: [err.message],
         },

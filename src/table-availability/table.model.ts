@@ -1,8 +1,8 @@
-// ========== Table Model
+// ========== Table Availabilities Model
 // import all packages
 import { UUIDV4 } from 'sequelize';
 import {
-  Table as SequelizeTable,
+  Table,
   Model,
   IsUUID,
   Column,
@@ -15,7 +15,7 @@ import {
   DeletedAt,
 } from 'sequelize-typescript';
 
-@SequelizeTable({
+@Table({
   timestamps: true,
   paranoid: true,
   hooks: {
@@ -31,7 +31,7 @@ import {
     },
   },
 })
-export class Table extends Model {
+export class TableAvailabilities extends Model {
   @IsUUID('4')
   @PrimaryKey
   @Default(UUIDV4)
@@ -48,6 +48,10 @@ export class Table extends Model {
 
   @Column(DataType.STRING)
   location: string;
+
+  @Default(false)
+  @Column(DataType.BOOLEAN)
+  is_available: boolean;
 
   @CreatedAt
   @Column(DataType.BIGINT)

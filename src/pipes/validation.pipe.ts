@@ -30,6 +30,7 @@ export class ValidationPipe implements PipeTransform<any> {
       throw new HttpException(
         {
           statusCode: HttpStatus.BAD_REQUEST,
+          message: 'Failed',
           errors: errorsList,
         },
         HttpStatus.BAD_REQUEST,

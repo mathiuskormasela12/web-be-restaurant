@@ -9,10 +9,10 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 // import all tables
-import { Table } from './table.model';
+import { TableAvailabilities } from './table.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Table])],
+  imports: [SequelizeModule.forFeature([TableAvailabilities])],
   controllers: [TableAvailabilityController],
   providers: [
     // Setup Transform Interceptor

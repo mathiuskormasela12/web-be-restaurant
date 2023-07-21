@@ -7,7 +7,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { TableAvailabilityModule } from './table-availability/tableAvailability.module';
 
 // import models
-import { Table } from './table-availability/table.model';
+import { TableAvailabilities } from './table-availability/table.model';
 
 @Module({
   imports: [
@@ -37,7 +37,7 @@ import { Table } from './table-availability/table.model';
         username: configService.get<string>('SERVICE_DB_USER'),
         password: configService.get<string>('SERVICE_DB_PASSWORD'),
         database: configService.get<string>('SERVICE_DB_NAME'),
-        models: [Table],
+        models: [TableAvailabilities],
         autoLoadModels: true,
         synchronize: true,
       }),
