@@ -9,7 +9,7 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 // import all tables
-import { TableAvailabilities } from './table.model';
+import { TableAvailabilities } from './tableAvailabilities.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([TableAvailabilities])],

@@ -3,8 +3,9 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { IResponse } from 'src/types';
-import { TableAvailabilities } from './table.model';
+import { TableAvailabilities } from './tableAvailabilities.model';
 import { CreateAvailableTableDto } from './dto/createAvailableTable.dto';
+import { Reservation } from '../reservation/reservation.model';
 
 @Injectable()
 export class TableAvailabilityService {
@@ -48,7 +49,7 @@ export class TableAvailabilityService {
           table_code: dto.table_code,
           capacity: dto.capacity,
           location: dto.location,
-          isAvailable: dto.isAvailable,
+          is_available: dto.is_available,
         });
 
         return {
@@ -63,6 +64,37 @@ export class TableAvailabilityService {
         errors: {
           table_code: ['table_code is duplicate'],
         },
+      };
+    } catch (err) {
+      return {
+        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: 'Server Error',
+        errors: {
+          database: [err.message],
+        },
+      };
+    }
+  }
+
+  public async getTableReservation(
+    tableId: string,
+  ): Promise<IResponse<TableAvailabilities>> {
+    try {
+      const data = await this.tableAvailabilitiesModel.findAll({
+        where: {
+          id: tableId,
+        },
+        include: [
+          {
+            model: Reservation,
+          },
+        ],
+      });
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Sucess',
+        data,
       };
     } catch (err) {
       return {

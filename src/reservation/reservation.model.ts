@@ -1,4 +1,4 @@
-// ========== Table Availabilities Model
+// ========== Reservation Model
 // import all packages
 import { UUIDV4 } from 'sequelize';
 import {
@@ -13,11 +13,16 @@ import {
   CreatedAt,
   UpdatedAt,
   DeletedAt,
+  IsEmail,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import { TableAvailabilities } from '../table-availability/tableAvailabilities.model';
+import { BookedTable } from './bookedTable.model';
 
 @Table({
-  timestamps: true,
+  timestamps: false,
   paranoid: true,
+  deletedAt: 'deleted_at',
   hooks: {
     beforeCreate(attributes) {
       attributes.dataValues.created_at = Date.now();
@@ -25,13 +30,15 @@ import {
     },
     beforeUpdate(attributes) {
       attributes.dataValues.updated_at = Date.now();
+      attributes.dataValues.deleted_at = Date.now();
     },
     beforeDestroy(attributes) {
+      attributes.dataValues.updated_at = Date.now();
       attributes.dataValues.deleted_at = Date.now();
     },
   },
 })
-export class TableAvailabilities extends Model {
+export class Reservation extends Model {
   @IsUUID('4')
   @PrimaryKey
   @Default(UUIDV4)
@@ -40,18 +47,19 @@ export class TableAvailabilities extends Model {
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  table_code: string;
-
-  @Default(0)
-  @Column(DataType.INTEGER)
-  capacity: number;
+  first_name: string;
 
   @Column(DataType.STRING)
-  location: string;
+  last_name: string;
 
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  is_available: boolean;
+  @AllowNull(false)
+  @IsEmail
+  @Column(DataType.STRING)
+  email: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  phone_number: string;
 
   @CreatedAt
   @Column(DataType.BIGINT)
@@ -64,4 +72,7 @@ export class TableAvailabilities extends Model {
   @DeletedAt
   @Column(DataType.BIGINT)
   deleted_at: number | null;
+
+  @BelongsToMany(() => TableAvailabilities, () => BookedTable)
+  tableAvailbilities: TableAvailabilities[];
 }

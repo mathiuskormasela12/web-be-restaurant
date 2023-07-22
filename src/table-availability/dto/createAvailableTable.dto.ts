@@ -50,5 +50,5 @@ export class CreateAvailableTableDto {
   })
   @IsNotEmpty({ message: 'isAvailable is required' })
   @IsBoolean({ message: 'isAvailable should be a boolan' })
-  isAvailable: boolean;
+  is_available: boolean;
 }
