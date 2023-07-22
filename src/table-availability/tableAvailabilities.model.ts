@@ -13,7 +13,10 @@ import {
   CreatedAt,
   UpdatedAt,
   DeletedAt,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import { Reservation } from '../reservation/reservation.model';
+import { BookedTable } from '../reservation/bookedTable.model';
 
 @Table({
   timestamps: true,
@@ -64,4 +67,7 @@ export class TableAvailabilities extends Model {
   @DeletedAt
   @Column(DataType.BIGINT)
   deleted_at: number | null;
+
+  @BelongsToMany(() => Reservation, () => BookedTable)
+  reservations: Reservation[];
 }

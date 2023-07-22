@@ -4,7 +4,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { TableAvailabilityService } from './TableAvailability.service';
 import { IResponse } from '../../src/types';
 import { CreateAvailableTableDto } from './dto/createAvailableTable.dto';
-import { TableAvailabilities } from './table.model';
+import { TableAvailabilities } from './tableAvailabilities.model';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   CreateTableAvailbilityError,

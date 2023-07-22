@@ -3,7 +3,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { IResponse } from 'src/types';
-import { TableAvailabilities } from './table.model';
+import { TableAvailabilities } from './tableAvailabilities.model';
 import { CreateAvailableTableDto } from './dto/createAvailableTable.dto';
 
 @Injectable()
@@ -48,7 +48,7 @@ export class TableAvailabilityService {
           table_code: dto.table_code,
           capacity: dto.capacity,
           location: dto.location,
-          isAvailable: dto.isAvailable,
+          is_available: dto.is_available,
         });
 
         return {

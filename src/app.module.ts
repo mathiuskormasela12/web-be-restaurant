@@ -7,7 +7,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { TableAvailabilityModule } from './table-availability/tableAvailability.module';
 
 // import models
-import { TableAvailabilities } from './table-availability/table.model';
+import { TableAvailabilities } from './table-availability/tableAvailabilities.model';
+import { Reservation } from './reservation/reservation.model';
+import { BookedTable } from './reservation/bookedTable.model';
 
 @Module({
   imports: [
@@ -37,7 +39,7 @@ import { TableAvailabilities } from './table-availability/table.model';
         username: configService.get<string>('SERVICE_DB_USER'),
         password: configService.get<string>('SERVICE_DB_PASSWORD'),
         database: configService.get<string>('SERVICE_DB_NAME'),
-        models: [TableAvailabilities],
+        models: [TableAvailabilities, Reservation, BookedTable],
         autoLoadModels: true,
         synchronize: true,
       }),
