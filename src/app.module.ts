@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { TableAvailabilityModule } from './table-availability/tableAvailability.module';
+import { ReservationModule } from './reservation/reservation.module';
 
 // import models
 import { TableAvailabilities } from './table-availability/tableAvailabilities.model';
@@ -47,6 +48,7 @@ import { BookedTable } from './reservation/bookedTable.model';
 
     // Define All Applications Here...
     TableAvailabilityModule,
+    ReservationModule,
   ],
 })
 export class AppModule {}

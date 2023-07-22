@@ -18,8 +18,9 @@ import { TableAvailabilities } from '../table-availability/tableAvailabilities.m
 import { Reservation } from './reservation.model';
 
 @Table({
-  timestamps: true,
+  timestamps: false,
   paranoid: true,
+  deletedAt: 'deleted_at',
   hooks: {
     beforeCreate(attributes) {
       attributes.dataValues.created_at = Date.now();
@@ -27,8 +28,10 @@ import { Reservation } from './reservation.model';
     },
     beforeUpdate(attributes) {
       attributes.dataValues.updated_at = Date.now();
+      attributes.dataValues.deleted_at = Date.now();
     },
     beforeDestroy(attributes) {
+      attributes.dataValues.updated_at = Date.now();
       attributes.dataValues.deleted_at = Date.now();
     },
   },

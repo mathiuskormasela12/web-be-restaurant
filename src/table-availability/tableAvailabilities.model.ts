@@ -19,7 +19,7 @@ import { Reservation } from '../reservation/reservation.model';
 import { BookedTable } from '../reservation/bookedTable.model';
 
 @Table({
-  timestamps: true,
+  timestamps: false,
   paranoid: true,
   hooks: {
     beforeCreate(attributes) {
@@ -28,8 +28,10 @@ import { BookedTable } from '../reservation/bookedTable.model';
     },
     beforeUpdate(attributes) {
       attributes.dataValues.updated_at = Date.now();
+      attributes.dataValues.deleted_at = Date.now();
     },
     beforeDestroy(attributes) {
+      attributes.dataValues.updated_at = Date.now();
       attributes.dataValues.deleted_at = Date.now();
     },
   },
