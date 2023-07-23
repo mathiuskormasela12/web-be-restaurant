@@ -1,0 +1,44 @@
+@startuml
+
+entity TableAvailabilities {
+  id : text <PK>
+  --
+
+  table_code : text
+  capacity : number
+  location : text
+  is_available : boolean
+  created_at : number
+  updated_at : number
+  deleted_at : number
+}
+
+
+entity Reservations {
+  id : text <PK>
+  --
+  
+  first_name : text
+  last_name : text
+  email : text
+  phone_number : text
+  created_at : number
+  updated_at : number
+  deleted_at : number
+}
+
+object BookedTables {
+  id : text <PK>
+  table_id : text <FK>
+  reservation_id : text <FK>
+  --
+
+  created_at : number
+  updated_at : number
+  deleted_at : number
+}
+
+Reservations |o--o{ BookedTables
+TableAvailabilities ||--o{ BookedTables
+
+@enduml
