@@ -1,13 +1,6 @@
 // ========= Table Availability Controller
 // import all packages
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { TableAvailabilityService } from './TableAvailability.service';
 import { IResponse } from '../../src/types';
 import { CreateAvailableTableDto } from './dto/createAvailableTable.dto';
@@ -41,10 +34,8 @@ export class TableAvailabilityController {
     return this.tableAvailabilityService.createAvailableTable(dto);
   }
 
-  @Get('/reservation/:tableId')
-  public async getTableReservation(
-    @Param('tableId', ParseUUIDPipe) tableId: string,
-  ): Promise<IResponse<TableAvailabilities>> {
-    return this.tableAvailabilityService.getTableReservation(tableId);
+  @Get('/reservation')
+  public async getTableReservation(): Promise<IResponse<TableAvailabilities>> {
+    return this.tableAvailabilityService.getTableReservation();
   }
 }
