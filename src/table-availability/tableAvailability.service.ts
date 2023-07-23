@@ -17,7 +17,7 @@ export class TableAvailabilityService {
   public async getAvailableTables(): Promise<IResponse<TableAvailabilities>> {
     try {
       const data = await this.tableAvailabilitiesModel.findAll({
-        attributes: ['id', 'table_code', 'is_available'],
+        attributes: ['id', 'table_code', 'is_available', 'location'],
       });
 
       return {
@@ -76,17 +76,13 @@ export class TableAvailabilityService {
     }
   }
 
-  public async getTableReservation(
-    tableId: string,
-  ): Promise<IResponse<TableAvailabilities>> {
+  public async getTableReservation(): Promise<IResponse<TableAvailabilities>> {
     try {
       const data = await this.tableAvailabilitiesModel.findAll({
-        where: {
-          id: tableId,
-        },
         include: [
           {
             model: Reservation,
+            required: true,
           },
         ],
       });

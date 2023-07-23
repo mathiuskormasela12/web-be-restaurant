@@ -6,6 +6,7 @@ import {
   IsEmail,
   IsMobilePhone,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
@@ -23,7 +24,7 @@ export class CreateReservationDto {
     title: 'Guest Last Name',
     type: String,
   })
-  @IsNotEmpty({ message: 'Last name is required' })
+  @IsOptional()
   @IsString({ message: 'Last name should be a string' })
   last_name: string;
 
