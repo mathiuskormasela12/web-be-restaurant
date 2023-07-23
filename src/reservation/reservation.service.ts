@@ -3,6 +3,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { Op } from 'sequelize';
 
 // import all models
 import { Reservation } from './reservation.model';
@@ -104,10 +105,15 @@ export class ReservationService {
     const transaction = await this.sequelize.transaction();
 
     try {
-      const reservation = await this.bookedTableModel.findOne({
+      const reservation = await this.reservationModel.findOne({
         where: {
-          reservation_id: reservationId,
+          id: reservationId,
         },
+        include: [
+          {
+            model: TableAvailabilities,
+          },
+        ],
       });
 
       if (reservation !== null) {
@@ -124,7 +130,11 @@ export class ReservationService {
             },
             {
               where: {
-                id: reservation.table_id,
+                id: {
+                  [Op.in]: reservation.tableAvailbilities.map(
+                    (item) => item.id,
+                  ),
+                },
               },
               individualHooks: true,
             },
